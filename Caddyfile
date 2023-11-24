@@ -1,0 +1,18 @@
+# {
+# 	acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+# }
+
+localhost:2016 {
+	tls {
+		ca https://acme-staging-v02.api.letsencrypt.org/directory
+	}
+	root * hello
+	file_server
+}
+localhost:2015 {
+	tls {
+		ca https://acme-staging-v02.api.letsencrypt.org/directory
+	}
+	root * www
+	file_server
+}

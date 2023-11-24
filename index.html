@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hello World !</h1>
+    <h2>se connecter</h2>
+    <form method="">
+        <label for="mail">Mail :</label>
+        <input type="email" name="mail" id="mail" autocomplete="off">
+        <label for="mail">Mot de passe :</label>
+        <input type="password" name="password" id="password" autocomplete="off">
+        <input type="submit" value="sign in" onclick="Signin()">
+    </form>
+    <h2>Créer un compte</h2>
+    <form>
+        <label for="mail">Mail :</label>
+        <input type="email" name="mail" id="mail" autocomplete="off">
+        <label for="mail">Mot de passe :</label>
+        <input type="password" name="password" id="password" autocomplete="off">
+        <input type="submit" value="sign up" >
+    </form>
+</body>
+</html>
+
+<script>
+    const Signin = async (event) => {
+        console.log("lrlrer")
+        event.preventDefault();
+        const response = await fetch("http://127.0.0.1:3000/signin",
+        {method:"POST",
+        body:{mail:event.target.name.mail,password:event.target.name.password}})
+        .then((value)=>{
+            window.sessionStorage.setItem("key",value);
+        }).catch(err=>console.log(err))
+    }
+</script>
