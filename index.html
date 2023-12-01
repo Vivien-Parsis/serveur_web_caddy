@@ -4,37 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body>
     <h1>Hello World !</h1>
     <h2>se connecter</h2>
-    <form method="">
-        <label for="mail">Mail :</label>
-        <input type="email" name="mail" id="mail" autocomplete="off">
-        <label for="mail">Mot de passe :</label>
-        <input type="password" name="password" id="password" autocomplete="off">
-        <input type="submit" value="sign in" onclick="Signin()">
-    </form>
+    <div x-data="sign_in">
+        <label for="mail-signin">Mail :</label>
+        <input type="email" name="mail" id="mail-signin" autocomplete="off" x-model="email">
+        <label for="password-signin">Mot de passe :</label>
+        <input type="password" name="password" id="password-signin" autocomplete="off" x-model="password">
+        <input type="button" value="sign in" @click="signIn">
+    </div>
     <h2>Créer un compte</h2>
-    <form>
+    <div x-data="sign_up">
         <label for="mail">Mail :</label>
         <input type="email" name="mail" id="mail" autocomplete="off">
         <label for="mail">Mot de passe :</label>
         <input type="password" name="password" id="password" autocomplete="off">
-        <input type="submit" value="sign up" >
-    </form>
+        <input type="button" value="sign up" >
+    </div>
 </body>
 </html>
 
 <script>
-    const Signin = async (event) => {
-        console.log("lrlrer")
-        event.preventDefault();
-        const response = await fetch("http://127.0.0.1:3000/signin",
-        {method:"POST",
-        body:{mail:event.target.name.mail,password:event.target.name.password}})
-        .then((value)=>{
-            window.sessionStorage.setItem("key",value);
-        }).catch(err=>console.log(err))
-    }
-</script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('sign_in', () => ({
+            email:"",
+            password:"",
+            async signIn(){
+                const response = await fetch("http://127.0.0.1:3000/signin",
+                {method:"POST",
+                headers:{"content-type":"application/json"},
+                mode:"no-cors",
+                body:JSON.stringify({"mail":this.email,"password":this.password})})
+                .then((response)=>{
+                    response.json()
+                })
+                .then((json)=>{
+                    console.log(JSON.stringify(json))
+                })
+                .catch(err=>console.log(err));
+            }
+        }))
+        Alpine.data('sign_up', () => ({
+            
+        }))
+    })
+</script>   
